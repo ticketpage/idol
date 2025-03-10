@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background-color: white !important; /* 修正: 背景色を白に固定 */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -17,7 +17,7 @@
         .chat-container {
             width: 80%;
             max-width: 600px;
-            background-color: white !important;
+            background-color: white !important; /* 修正: chat-container の背景色を白に固定 */
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -99,7 +99,11 @@
         function saveAsImage() {
             let chatContainer = document.querySelector(".chat-container");
 
-            html2canvas(chatContainer, { useCORS: true, logging: true }).then(canvas => {
+            html2canvas(chatContainer, {
+                useCORS: true,
+                backgroundColor: "#FFFFFF", // 修正: 背景色を白に固定
+                logging: true
+            }).then(canvas => {
                 let link = document.createElement("a");
                 link.href = canvas.toDataURL("image/png");
                 link.download = "chat.png";
