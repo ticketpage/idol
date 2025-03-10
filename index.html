@@ -17,9 +17,10 @@
         .chat-container {
             width: 80%;
             max-width: 600px;
-            background-color: white;
+            background-color: white !important;
             padding: 20px;
             border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .chat {
             display: flex;
@@ -97,11 +98,14 @@
 
         function saveAsImage() {
             let chatContainer = document.querySelector(".chat-container");
-            html2canvas(chatContainer).then(canvas => {
+
+            html2canvas(chatContainer, { useCORS: true, logging: true }).then(canvas => {
                 let link = document.createElement("a");
                 link.href = canvas.toDataURL("image/png");
                 link.download = "chat.png";
                 link.click();
+            }).catch(err => {
+                console.error("画像保存エラー:", err);
             });
         }
     </script>
@@ -121,11 +125,11 @@
     
     <div class="chat-container">
         <div class="chat question">
-            <img src="https://raw.githubusercontent.com/ticketpage/idol/refs/heads/main/image.png" alt="質問者">
+            <img src="https://raw.githubusercontent.com/ticketpage/idol/main/image.png?raw=true" alt="質問者" crossorigin="anonymous">
             <div class="bubble" id="question-text"><strong>Q. ここに質問</strong> ここに質問テキストが入ります。</div>
         </div>
         <div class="chat answer">
-            <img src="https://raw.githubusercontent.com/ticketpage/idol/refs/heads/main/image.png" alt="回答者">
+            <img src="https://raw.githubusercontent.com/ticketpage/idol/main/image.png?raw=true" alt="回答者" crossorigin="anonymous">
             <div class="bubble" id="answer-text"><strong>A. ここに回答</strong> ここに回答テキストが入ります。</div>
         </div>
     </div>
