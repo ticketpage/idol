@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: white !important; /* 修正: 背景色を白に固定 */
+            background-color: white !important; /* 背景色を白に */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -17,10 +17,11 @@
         .chat-container {
             width: 80%;
             max-width: 600px;
-            background-color: white !important; /* 修正: chat-container の背景色を白に固定 */
+            background-color: white !important;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
         .chat {
             display: flex;
@@ -29,21 +30,22 @@
             position: relative;
         }
         .chat img {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
         }
         .chat .bubble {
             max-width: 70%;
             padding: 15px;
-            border-radius: 20px;
-            position: relative;
+            border-radius: 10px;
             font-size: 16px;
             font-weight: bold;
             display: inline-block;
+            position: relative;
+            background-color: #d0d0d0;
         }
         .bubble strong {
-            font-size: 20px;
+            font-size: 18px;
             display: block;
             margin-bottom: 5px;
         }
@@ -53,6 +55,7 @@
         .answer .bubble {
             background-color: #b0b0b0;
             margin-left: 15px;
+            border-radius: 10px;
         }
         .question {
             flex-direction: row-reverse;
@@ -60,7 +63,30 @@
         .question .bubble {
             background-color: #d0d0d0;
             margin-right: 15px;
+            border-radius: 10px;
         }
+
+        /* 吹き出しの三角形 */
+        .bubble:after {
+            content: "";
+            position: absolute;
+            border-style: solid;
+        }
+        .question .bubble:after {
+            top: 50%;
+            right: -10px;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent #d0d0d0;
+            transform: translateY(-50%);
+        }
+        .answer .bubble:after {
+            top: 50%;
+            left: -10px;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent #b0b0b0 transparent transparent;
+            transform: translateY(-50%);
+        }
+
         .input-container {
             margin-bottom: 20px;
             width: 80%;
@@ -101,8 +127,8 @@
 
             html2canvas(chatContainer, {
                 useCORS: true,
-                backgroundColor: "#FFFFFF", // 修正: 背景色を白に固定
-                logging: true
+                backgroundColor: "#FFFFFF", // 背景を白に固定
+                scale: 2 // 解像度を向上
             }).then(canvas => {
                 let link = document.createElement("a");
                 link.href = canvas.toDataURL("image/png");
