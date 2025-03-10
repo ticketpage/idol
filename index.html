@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q&A 吹き出しデザイン</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .chat-container {
+            width: 80%;
+            max-width: 600px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .chat {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .chat img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+        .chat .bubble {
+            max-width: 70%;
+            padding: 15px;
+            border-radius: 20px;
+            position: relative;
+            font-size: 16px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .bubble strong {
+            font-size: 20px;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .answer {
+            flex-direction: row;
+        }
+        .answer .bubble {
+            background-color: #b0b0b0;
+            margin-left: 15px;
+        }
+        .question {
+            flex-direction: row-reverse;
+        }
+        .question .bubble {
+            background-color: #d0d0d0;
+            margin-right: 15px;
+        }
+        .input-container {
+            margin-bottom: 20px;
+            width: 80%;
+            max-width: 600px;
+        }
+        .input-container label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        .input-container textarea {
+            width: 100%;
+            height: 40px;
+            padding: 5px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            resize: none;
+        }
+        #save-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+    <script>
+        function updateText(prefixId, textId, target) {
+            let prefix = document.getElementById(prefixId).value;
+            let text = document.getElementById(textId).value;
+            document.getElementById(target).innerHTML = "<strong>" + prefix + "</strong> " + text;
+        }
+
+        function saveAsImage() {
+            let chatContainer = document.querySelector(".chat-container");
+            html2canvas(chatContainer).then(canvas => {
+                let link = document.createElement("a");
+                link.href = canvas.toDataURL("image/png");
+                link.download = "chat.png";
+                link.click();
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="input-container">
+        <label for="question-prefix">質問タイトル：</label>
+        <textarea id="question-prefix" oninput="updateText('question-prefix', 'question-textbox', 'question-text')">Q. ここに質問</textarea>
+        <label for="question-textbox">質問内容：</label>
+        <textarea id="question-textbox" oninput="updateText('question-prefix', 'question-textbox', 'question-text')"></textarea>
+        
+        <label for="answer-prefix">回答タイトル：</label>
+        <textarea id="answer-prefix" oninput="updateText('answer-prefix', 'answer-textbox', 'answer-text')">A. ここに回答</textarea>
+        <label for="answer-textbox">回答内容：</label>
+        <textarea id="answer-textbox" oninput="updateText('answer-prefix', 'answer-textbox', 'answer-text')"></textarea>
+    </div>
+    
+    <div class="chat-container">
+        <div class="chat question">
+            <img src="https://github.com/ticketpage/idol/blob/main/image.png" alt="質問者">
+            <div class="bubble" id="question-text"><strong>Q. ここに質問</strong> ここに質問テキストが入ります。</div>
+        </div>
+        <div class="chat answer">
+            <img src="https://github.com/ticketpage/idol/blob/main/image.png" alt="回答者">
+            <div class="bubble" id="answer-text"><strong>A. ここに回答</strong> ここに回答テキストが入ります。</div>
+        </div>
+    </div>
+
+    <button id="save-btn" onclick="saveAsImage()">画像として保存</button>
+</body>
+</html>
